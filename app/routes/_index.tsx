@@ -55,8 +55,8 @@ export default function Index() {
 
 const resources = [
   {
-    href: "https://github.com/atima22/mai-react-app",
-    text: "LAb01: Default Remix App",
+    href: "http://localhost:5173/",
+    text: "LAb01: (08/07/2568)",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ const resources = [
   },
   {
     href: "http://localhost:5173/mai-lab02",
-    text: "Lab02: First Component",
+    text: "Lab02: (17/07/2568)",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +97,8 @@ const resources = [
     ),
   },
   {
-    href: "https://github.com/atima22/mai-react-app",
-    text: "Lab03: Profile component",
+    href: "http://localhost:5173/mai-lab03",
+    text: "Lab03: (24/07/2568)",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
