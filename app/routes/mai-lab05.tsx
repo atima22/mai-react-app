@@ -1,44 +1,49 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import {myTermProj} from "./data/termProject";
+import { useState } from "react";
 
 export default function MyTermProject () {
+
+    const [isTerm, setIsTeam] = useState(null);
+
+    const handleTeam = (isTerm: any ) => {
+        setIsTeam(isTerm);
+    }
 
     const myPage = "Atima Term Project"
     const myName = "Atima Kaewprapai"
     const myStudID = "026730491009-9"
-    const myTermProj = [
-     {
-        tpId: 1,
-        tpSubj:"Web Technology",
-        tpDesc:"พัฒนาเว็บ การท่องเที่ยว",
-        tpCover:"./images/projects/pro1.png",
-        tpUrl:"http://busitlab.rmutto.ac.th/~026730491009-9/project-travel/home.html",
-        tpTerm: true
-     },
+   
 
-      {
-        tpId: 1,
-        tpSubj:"Web Technology",
-        tpDesc:"พัฒนาเว็บ การ์ตูน",
-        tpCover:"./images/projects/pro2.png",
-        tpUrl:"http://busitlab.rmutto.ac.th/~026730491009-9/week05/ch03_1009_9.html",
-        tpTerm: false
-     },
+    const tpSingle = myTermProj.filter(tpTmp => {
+        if(isTerm === null)
+         return tpTmp.tpTerm === true || tpTmp.tpTerm === false
+       else
+         return tpTmp.tpTerm === isTerm
+    }
+);
+    // function handleClick() {
+    //    alert("คุณได้เลือกโปรเจค");
+    // }
 
-      {
-        tpId: 1,
-        tpSubj:"Web Technology",
-        tpDesc:"พัฒนาเว็บ กลลวงมิจฉาชีพ",
-        tpCover:"./images/projects/pro3.png",
-        tpUrl:"https://atima22.wordpress.com/",
-        tpTerm: false
+     const handleClick = (tpId : any, ind: any) => {
+        let myOut = "";
+        let myObj = myTermProj[ind];
+        
+        myOut+="[ข้อมูลโปรเจค]\n"
+        myOut+="รหัส (ID): "+myObj.tpId+"\n";
+        myOut+="รายวิชา (Subject): "+myObj.tpSubj+"\n";
+        myOut+="ชื่อโปรเจค (NameProject): "+myObj.tpDesc+"\n";
+        myOut+="รูปภาพ (Images): "+myObj.tpCover+"\n";
+        myOut+="ลิงค์ผลงาน (Link): "+myObj.tpUrl+"\n";
+        myOut+="ประเภทการทำงาน (Team): "+myObj.tpTerm+"\n";
+        myOut+="\n-- Thank you--"
+
+        //alert("คุณได้เลือกโปรเจค รหัส:"+tpId+"!");
+        alert(myOut);
      }
 
-    ];
-
-    const tpSingle = myTermProj.filter(tpTmp =>
-     tpTmp.tpTerm === false
-    );
     const termProj = tpSingle.map((tpObj,index) =>
        <div className="grid grid-cols-5 mx-auto border-gray-300" key={index}>
            <div className="w-32 p-1">
@@ -51,7 +56,9 @@ export default function MyTermProject () {
        <ItermTerm isTerm={tpObj.tpTerm} />
       </div>
      <div className="p-4 mb-auto">
-      <a href={tpObj.tpUrl} className="bg-indigo-600 text-white rounded-sm hover:bg-indigo-700 px-10 py-2">Preview</a>
+      <a href="#" className="bg-indigo-600 text-white rounded-sm hover:bg-indigo-700 px-10 py-2"
+      onClick={() => handleClick(tpObj.tpId,index)}
+      >Preview</a>
     </div>
   </div>
 );
@@ -61,9 +68,31 @@ export default function MyTermProject () {
         <p className="text-xl text-center ">
            Name : {myName} stud ID : {myStudID}
         </p>
+
+<div className="w-1/2 grid mx-auto h-100 overflow-auto rounded-2xl border border-gray-300
+flex justify-center grid grid-cols-3 gap-2">
+    <button className="bg-pink-300 hover:bg-pink-400 text-white font-bold py-2 px-4 rounded-full"
+    onClick={() => handleTeam(null)}>
+     [A] All
+    </button>
+    <button className="bg-green-300 hover:bg-green-400 text-white font-bold py-2 px-4 rounded-full"
+    onClick={() => handleTeam(true)}>
+     [T] Team
+    </button>
+    <button className="bg-purple-300 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded-full"
+    onClick={() => handleTeam(false)}>
+     [S] Single
+    </button>
+</div>
+
      <div className="w-1/2 grid mx-auto h-100 overflow-auto rounded-2xl border border-gray-300">
       {termProj}
      </div>
+
+    <h3 className="w-1/2 mx-auto rounded-2xl flex justify-center">
+    จำนวน {myTermProj.length} รายการ
+    </h3>
+
      <Footer title = "  © 2025 Atima. 026730491009-9"/>
         </>
     );
