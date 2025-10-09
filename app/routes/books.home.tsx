@@ -28,6 +28,8 @@ export default function BooksHome () {
       setStatus(false);
     }
   }, [relStatus]);
+
+  
   if (relStatus) {
     return (
 <div className="flex items-center h-screen">
@@ -55,7 +57,29 @@ export default function BooksHome () {
 </div>
     );
   }
- 
+ const handleDelete = (bookId) => {
+    if(confirm(`ยืนยันการลบหนังสือรหัส --> ${bookId}?`)){
+      try {
+        const fetchData = async () => {
+          const data = await fetch(
+            `http://localhost:3000/api/deleteBook/${bookId}`,
+            { method: 'DELETE' }
+          );
+          if (data.ok) {
+            const json = await data.json();
+            alert(json.message);
+          } else {
+            alert('Failed to deleted data.');
+          }
+        }
+        fetchData().catch(console.error);
+        setStatus(true);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the data.');
+      }
+    }
+  }
   return (
 <>
 <p className="m-5 p-3 text-center text-md">
@@ -99,7 +123,7 @@ export default function BooksHome () {
         }
 <tr>
 <td colSpan={4} className="px-6 py-4 text-right">
-              จำนวน {bookData.length} รายการ
+              จำนวน {bookCount} รายการ
 </td>      
 </tr>
 </tbody>

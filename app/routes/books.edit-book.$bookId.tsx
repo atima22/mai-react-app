@@ -1,23 +1,25 @@
 import { useState , useEffect } from "react";
-import { Link, useParams } from "@remix-run/react";
+import { Link, useNavigate, useParams } from "@remix-run/react";
 
 export default function AddBoook() {
 
    const [inputId,setInputId] = useState(0);
    const [inputTitle, setInputTitle] = useState('');
    const [inputAuthor, setInputAuthor] = useState('');
+    const navigate = useNavigate();
 
   const { bookId } = useParams();
 
   useEffect(() => {
    const fetchDate = async() => {
+    
     try{
-    const resBook = await fetch(`http://localhost:3000/api/getbooks/${bookId}`);
+    const resBook = await fetch(`http://localhost:3000/api/getOneBook/${bookId}`);
     if(resBook.ok) {
      const result = await resBook.json();
      setInputId(result.id,);
-     setInputTitle(result.title);
-     setInputAuthor(result.author);
+     setInputTitle(result.bookTitle);
+     setInputAuthor(result.bookAuthor);
     } else{
       alert('API is wrong. ');
     }
@@ -31,17 +33,18 @@ export default function AddBoook() {
    const handleSubmit = async (e:any) => {
        e.preventDefault();
        try {
-          const resAddBook = await fetch(`http://localhost:3000/api/update`,
+          const resAddBook = await fetch(`http://localhost:3000/api/updateBook`,
             {
               method: 'POST',
               headers: {
                 'Content-type': 'application/json'
               },
-              body: JSON.stringify({id:inputId , title: inputTitle, author: inputAuthor})
+              body: JSON.stringify({bookId:inputId , bookTitle: inputTitle, bookAuthor: inputAuthor})
             }
           );
           const result = await resAddBook.json();
           alert('Update book ID: ' + result.message);
+           navigate('/books/home')
        } catch (error) {
          alert('Error submitting data: ' + error);
        }
@@ -51,6 +54,7 @@ export default function AddBoook() {
       <>
         <form onSubmit={handleSubmit}>
           <input type="hidden" value={inputId} />
+          <h1 className=" text-2xl p-5">แก้ไขหนังสือ</h1>
             <label>ชื่อหนังสือ:</label>
             <input type="text"
               value={inputTitle}

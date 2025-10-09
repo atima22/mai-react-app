@@ -1,9 +1,11 @@
+import {  useNavigate } from "@remix-run/react";
 import { useState } from "react";
 
 export default function AddBoook() {
 
    const [inputTitle, setInputTitle] = useState('');
    const [inputAuthor, setInputAuthor] = useState('');
+   const navigate = useNavigate();
 
    const handleSubmit = async (e:any) => {
        e.preventDefault();
@@ -14,11 +16,12 @@ export default function AddBoook() {
               headers: {
                 'Content-type': 'application/json'
               },
-              body: JSON.stringify({ title: inputTitle, author: inputAuthor})
+              body: JSON.stringify({ bookTitle: inputTitle, bookAuthor: inputAuthor})
             }
           );
           const result = await resAddBook.json();
-          alert('Add new book ID: ' + result.id);
+          alert('Add new book ID: ' + result.message);
+          navigate('/books/home')
        } catch (error) {
          alert('Error submitting data: ' + error);
        }
@@ -26,6 +29,7 @@ export default function AddBoook() {
     
     return (
         <form onSubmit={handleSubmit}>
+          <h1 className=" text-2xl p-5">เพิ่มหนังสือ</h1>
             <label>ชื่อหนังสือ:</label>
             <input type="text"
               value={inputTitle}
